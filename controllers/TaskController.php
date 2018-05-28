@@ -20,13 +20,18 @@ class TaskController extends Controller
             ]
         ]);
         $model->validate();
+//        var_dump($model->toArray());
+        /*
         return $this->render('index',
             [
                 'title' => $model->title,
                 'content' => $model->content,
                 'author' => $model->author,
                 'time' => $model->time
-            ]);
+            ]);*/
+
+//        return $this->render('index', $model->toArray());
+        return $this->render('index', ['model' => $model]);
     }
 
 }

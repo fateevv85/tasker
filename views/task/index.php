@@ -1,4 +1,5 @@
-<h3><?= $title ?></h3>
-<p><?= $content ?></p>
-<mark><?= $author ?></mark>
-<h6><?= $time ?></h6>
+<?php var_dump($model)?>
+<h3><?= $model->title ?></h3>
+<p><?= $model->content ?></p>
+<mark><?= $model->author ?></mark>
+<h6><?= $model->time ?></h6>
