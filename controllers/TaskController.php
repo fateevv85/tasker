@@ -20,7 +20,6 @@ class TaskController extends Controller
             ]
         ]);
         $model->validate();
-//        var_dump($model->toArray());
         /*
         return $this->render('index',
             [
