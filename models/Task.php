@@ -7,10 +7,12 @@ use yii\base\Model;
 
 class Task extends Model
 {
+    public $id;
+    public $user;
     public $title;
-    public $content;
-    public $author;
-    public $time;
+    public $description;
+    public $start_time;
+    public $finish_time;
 
     public function rules()
     {
