@@ -100,11 +100,12 @@ class TaskController extends Controller
     {
 //        CREATE
         /*
-                $user = new Users();
-                $user->login = 'Sidorov';
-                $user->password = md5('admin');
-                $user->save();
-                var_dump($user);
+                        $user = new Users();
+                        $user->login = '123';
+                        $user->password = md5('123');
+                        $user->role_id = 2;
+                        $user->save();
+                        var_dump($user);
         */
 
 //        FIND
@@ -156,28 +157,35 @@ class TaskController extends Controller
         */
 
         //FOR HOME WORK
+/*
         $user = Users::findOne(['login' => '123']);
         $model = new LoginForm();
-        /*
+
         $model->attributes = [
             'username' => 123,
             'password' => 123,
-        ];*/
+        ];
 
 //        $model->load($user->toArray());
 //        $userAr = $user->toArray();
 //        $userAr['usernamelogin'] = $userAr['login'];
 //        unset($userAr['login']);
 //        var_dump($userAr);
-        $newuser = new \app\models\User($user->toArray());
-        $newuser->username = $user['login'];
+//        $newuser = new \app\models\User($user->forUserConstruct());
+//        $newuser = new \app\models\User(['username'=> $userAr['login']]);
+//        $newuser->username = $user['login'];
 //        var_dump($model);
-        var_dump($user['login']);
-        var_dump($newuser);
-        var_dump('identity', \Yii::$app->user->identity);
+//        var_dump($user);
+//        var_dump($user->forUserConstruct());
+//        var_dump($user->fields());
+//        var_dump($newuser);
+//        var_dump($newuser->getUsername());
+//        var_dump($newuser);
+//        var_dump('identity', \Yii::$app->user->identity);
 //        var_dump($model->getUser());
 
         exit;
+*/
     }
 
 }

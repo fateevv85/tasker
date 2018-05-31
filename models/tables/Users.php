@@ -62,4 +62,11 @@ class Users extends \yii\db\ActiveRecord
             ->where('role_id = 1')
             ->all();
     }
+
+    public function forUserConstruct() {
+        $array = $this->toArray();
+        $array['username'] = $array['login'];
+        unset($array['login']);
+        return $array;
+    }
 }

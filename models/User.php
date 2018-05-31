@@ -8,7 +8,6 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 {
     public $id;
     public $username;
-    public $login;
     public $password;
     public $role_id;
     public $authKey;
@@ -21,9 +20,8 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     {
         $user = Users::findOne($id);
         if ($user) {
-            $newuser = new User($user->toArray());
-            $newuser->username = $user['login'];
-            return $newuser;
+            $newUser = new User($user->forUserConstruct());
+            return $newUser;
         }
         return null;
     }
@@ -53,9 +51,8 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 
         $user = Users::findOne(['login' => $username]);
         if ($user) {
-            $newuser = new User($user->toArray());
-            $newuser->username = $user['login'];
-            return $newuser;
+            $newUser = new User($user->forUserConstruct());
+            return $newUser;
         }
         return null;
 
