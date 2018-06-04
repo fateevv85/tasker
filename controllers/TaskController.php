@@ -16,40 +16,6 @@ class TaskController extends Controller
 {
     public function actionIndex()
     {
-        /*
-        $model = new Task([
-            'title' => 'Hello',
-            'content' => 'I am using Yii',
-            'author' => 'Vasiliy',
-            'time' => date('Y-m-d')
-        ]);
-*/
-        /*
-        $model->load([
-            'Task' => [
-                'title' => 'Hello',
-                'content' => 'I am using Yii',
-                'author' => 'Vasiliy',
-                'time' => date('Y-m-d')
-            ]
-        ]);
-        */
-        /*
-        $model->attributes = ['title' => 'title', 'content' => 'this is content'];
-        */
-//        var_dump($model->validate());
-
-        /*
-        return $this->render('index',
-            [
-                'title' => $model->title,
-                'content' => $model->content,
-                'author' => $model->author,
-                'time' => $model->time
-            ]);*/
-
-//        return $this->render('index', $model->toArray());
-
         $date = date('Y-m');
         $user_id = \Yii::$app->user->identity->getId();
 
@@ -62,6 +28,41 @@ class TaskController extends Controller
 
         return $this->render('index', ['dataProvider' => $dataProvider]);
     }
+
+    /*
+    $model = new Task([
+        'title' => 'Hello',
+        'content' => 'I am using Yii',
+        'author' => 'Vasiliy',
+        'time' => date('Y-m-d')
+    ]);
+*/
+    /*
+    $model->load([
+        'Task' => [
+            'title' => 'Hello',
+            'content' => 'I am using Yii',
+            'author' => 'Vasiliy',
+            'time' => date('Y-m-d')
+        ]
+    ]);
+    */
+    /*
+    $model->attributes = ['title' => 'title', 'content' => 'this is content'];
+    */
+//        var_dump($model->validate());
+
+    /*
+    return $this->render('index',
+        [
+            'title' => $model->title,
+            'content' => $model->content,
+            'author' => $model->author,
+            'time' => $model->time
+        ]);*/
+
+//        return $this->render('index', $model->toArray());
+
 
     public function actionTest()
     {
