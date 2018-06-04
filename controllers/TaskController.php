@@ -6,21 +6,24 @@ namespace app\controllers;
 use app\models\LoginForm;
 use app\models\tables\Users;
 use app\models\Task;
+use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\User;
+use app\models\tables\Task as Tasks;
 
 class TaskController extends Controller
 {
     public function actionIndex()
     {
+        /*
         $model = new Task([
             'title' => 'Hello',
             'content' => 'I am using Yii',
             'author' => 'Vasiliy',
             'time' => date('Y-m-d')
         ]);
-
+*/
         /*
         $model->load([
             'Task' => [
@@ -46,7 +49,18 @@ class TaskController extends Controller
             ]);*/
 
 //        return $this->render('index', $model->toArray());
-        return $this->render('index', ['model' => $model]);
+
+        $date = date('Y-m');
+        $user_id = \Yii::$app->user->identity->getId();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => \app\models\tables\Task::find()->where(['LIKE', 'date', $date])->andFilterWhere(['user_id' => $user_id]),
+            'pagination' => [
+                'pageSize' => 10,
+            ]
+        ]);
+
+        return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
     public function actionTest()
@@ -157,35 +171,46 @@ class TaskController extends Controller
         */
 
         //FOR HOME WORK
-/*
-        $user = Users::findOne(['login' => '123']);
-        $model = new LoginForm();
+        /*
+                $user = Users::findOne(['login' => '123']);
+                $model = new LoginForm();
 
-        $model->attributes = [
-            'username' => 123,
-            'password' => 123,
-        ];
+                $model->attributes = [
+                    'username' => 123,
+                    'password' => 123,
+                ];
 
-//        $model->load($user->toArray());
-//        $userAr = $user->toArray();
-//        $userAr['usernamelogin'] = $userAr['login'];
-//        unset($userAr['login']);
-//        var_dump($userAr);
-//        $newuser = new \app\models\User($user->forUserConstruct());
-//        $newuser = new \app\models\User(['username'=> $userAr['login']]);
-//        $newuser->username = $user['login'];
-//        var_dump($model);
-//        var_dump($user);
-//        var_dump($user->forUserConstruct());
-//        var_dump($user->fields());
-//        var_dump($newuser);
-//        var_dump($newuser->getUsername());
-//        var_dump($newuser);
-//        var_dump('identity', \Yii::$app->user->identity);
-//        var_dump($model->getUser());
+        //        $model->load($user->toArray());
+        //        $userAr = $user->toArray();
+        //        $userAr['usernamelogin'] = $userAr['login'];
+        //        unset($userAr['login']);
+        //        var_dump($userAr);
+        //        $newuser = new \app\models\User($user->forUserConstruct());
+        //        $newuser = new \app\models\User(['username'=> $userAr['login']]);
+        //        $newuser->username = $user['login'];
+        //        var_dump($model);
+        //        var_dump($user);
+        //        var_dump($user->forUserConstruct());
+        //        var_dump($user->fields());
+        //        var_dump($newuser);
+        //        var_dump($newuser->getUsername());
+        //        var_dump($newuser);
+        //        var_dump('identity', \Yii::$app->user->identity);
+        //        var_dump($model->getUser());
 
-        exit;
-*/
+                exit;
+        */
+    }
+
+    public function actionCreate()
+    {
+        $model = new Tasks();
+
+        if ($model->load(\Yii::$app->request->post()) && $model->save()) {
+            $this->redirect(['task/index']);
+        };
+
+        return $this->render('create', ['model' => $model]);
     }
 
 }

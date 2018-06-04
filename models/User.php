@@ -18,11 +18,10 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findIdentity($id)
     {
-        $user = Users::findOne($id);
-        if ($user) {
-            $newUser = new User($user->forUserConstruct());
-            return $newUser;
+        if ($user = Users::findOne($id)) {
+            return new static($user->forUserConstruct());
         }
+
         return null;
     }
 
@@ -48,14 +47,11 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-
-        $user = Users::findOne(['login' => $username]);
-        if ($user) {
-            $newUser = new User($user->forUserConstruct());
-            return $newUser;
+        if ($user = Users::findOne(['login' => $username])) {
+            return new static($user->forUserConstruct());
         }
-        return null;
 
+        return null;
     }
 
     /**
