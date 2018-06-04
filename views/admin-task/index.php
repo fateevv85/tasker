@@ -19,15 +19,15 @@ $this->params['breadcrumbs'][] = $this->title;
       <?= Html::a('Create Task', ['create'], ['class' => 'btn btn-success']) ?>
   </p>
 
-  <?php \app\widgets\MyWidget::begin([
+    <?php \app\widgets\MyWidget::begin([
         //show whats in 'init' function
         'message' => 'hello'
-  ]);
+    ]);
 
-  //function 'run'
-  \app\widgets\MyWidget::end();
+    //function 'run'
+    \app\widgets\MyWidget::end();
 
-  ?>
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

@@ -1,4 +1,4 @@
-<h3>List of current tasks</h3>
+<h3>List of current tasks for <?= date('F') ?></h3>
 <?php
 
 echo \yii\widgets\ListView::widget([
@@ -8,6 +8,7 @@ echo \yii\widgets\ListView::widget([
         'class' => 'list-wrapper',
         'id' => 'list-wrapper',
     ],
+    'itemView' => '_list_item'
 ]);
 
 ?>

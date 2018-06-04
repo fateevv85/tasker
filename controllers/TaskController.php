@@ -1,7 +1,5 @@
 <?php
-//ФАЙЛ ДЛЯ ТЕСТИРОВАНИЯ, К ДЗ НЕ ОТНОСИТСЯ
 namespace app\controllers;
-
 
 use app\models\LoginForm;
 use app\models\tables\Users;
@@ -20,7 +18,7 @@ class TaskController extends Controller
         $user_id = \Yii::$app->user->identity->getId();
 
         $dataProvider = new ActiveDataProvider([
-            'query' => \app\models\tables\Task::find()->where(['LIKE', 'date', $date])->andFilterWhere(['user_id' => $user_id]),
+            'query' => Tasks::find()->where(['LIKE', 'date', $date])->andFilterWhere(['user_id' => $user_id]),
             'pagination' => [
                 'pageSize' => 10,
             ]
