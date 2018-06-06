@@ -61,4 +61,13 @@ class Task extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Users::className(), ['id' => 'user_id']);
     }
+
+    public static function getByCurrentMonth($user_id)
+    {
+        return static::find()
+            ->where(['user_id' => $user_id])
+//            ->andWhere(['MONTH(date)' => date('m')]);
+            ->andWhere(['LIKE', 'date', date('Y-m')])
+            ->all();
+    }
 }

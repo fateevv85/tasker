@@ -1,4 +1,5 @@
 <?php
+
 namespace app\controllers;
 
 use app\models\LoginForm;
@@ -8,23 +9,31 @@ use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\User;
-use app\models\tables\Task as Tasks;
+use app\models\tables\Task as TaskTables;
 
 class TaskController extends Controller
 {
     public function actionIndex()
     {
-        $date = date('Y-m');
-        $user_id = \Yii::$app->user->identity->getId();
+        $user_id = \Yii::$app->user->getId();
+        $calendar = array_fill_keys((range(1, date('t'))), []);
+        $tasks = TaskTables::getByCurrentMonth($user_id);
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => Tasks::find()->where(['LIKE', 'date', $date])->andFilterWhere(['user_id' => $user_id]),
-            'pagination' => [
-                'pageSize' => 10,
-            ]
-        ]);
+        foreach ($tasks as $task) {
+            $date = \DateTime::createFromFormat('Y-m-d', $task->date);
+            $calendar[$date->format('j')][] = $task;
+        }
 
-        return $this->render('index', ['dataProvider' => $dataProvider]);
+        /*
+                $dataProvider = new ActiveDataProvider([
+                    'query' => $calendar,
+                    'pagination' => [
+                        'pageSize' => 10,
+                    ]
+                ]);
+        */
+
+        return $this->render('index', ['calendar' => $calendar]);
     }
 
     /*
