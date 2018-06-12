@@ -66,8 +66,12 @@ class AdminUserController extends Controller
     {
         $model = new users();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($data = (Yii::$app->request->post())) {
+            $data['Users']['password'] = Yii::$app->getSecurity()->generatePasswordHash(Yii::$app->request->post('Users')['password']);
+
+            if ($model->load($data) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('create', [

@@ -19,7 +19,11 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public static function findIdentity($id)
     {
         if ($user = Users::findOne($id)) {
-            return new static($user->forUserConstruct());
+            return new static([
+                'id' => $user->id,
+                'username' => $user->login,
+                'password' => $user->password
+            ]);
         }
 
         return null;
@@ -48,7 +52,11 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public static function findByUsername($username)
     {
         if ($user = Users::findOne(['login' => $username])) {
-            return new static($user->forUserConstruct());
+            return new static([
+                'id' => $user->id,
+                'username' => $user->login,
+                'password' => $user->password
+            ]);
         }
 
         return null;
@@ -86,6 +94,6 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === md5($password);
+        return \Yii::$app->getSecurity()->validatePassword($password, $this->password);
     }
 }

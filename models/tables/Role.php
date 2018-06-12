@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property string $role
  */
-class Role extends \yii\db\ActiveRecord
+class Role extends ActiveRecord
 {
     /**
      * {@inheritdoc}

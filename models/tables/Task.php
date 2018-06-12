@@ -3,6 +3,8 @@
 namespace app\models\tables;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "task".
@@ -15,7 +17,7 @@ use Yii;
  *
  * @property Users $user
  */
-class Task extends \yii\db\ActiveRecord
+class Task extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -70,4 +72,34 @@ class Task extends \yii\db\ActiveRecord
             ->andWhere(['LIKE', 'date', date('Y-m')])
             ->all();
     }
+
+    public static function getBySelectedMonth($user_id, $month)
+    {
+        return static::find()
+            ->where(['user_id' => $user_id])
+            ->andWhere(['MONTH(date)' => date('m', mktime(0, 0, 0, $month))])
+            ->all();
+    }
+
+    public static function getBySelectedDay($user_id, $date)
+    {
+        return static::find()
+            ->where(['user_id' => $user_id])
+            ->andWhere(['date' => date($date)]);
+//            ->all();
+    }
+/*
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value' => new Expression('NOW()')
+            ]
+        ];
+    }
+*/
+
 }

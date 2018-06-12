@@ -11,7 +11,7 @@ use Yii;
  * @property string $login
  * @property string $password
  */
-class Users extends \yii\db\ActiveRecord
+class Users extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -32,8 +32,9 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['login', 'password'], 'required'],
+            [['login', 'password', 'email'], 'required'],
             [['login'], 'string', 'max' => 50],
+            [['email'], 'string', 'max' => 100],
             [['password'], 'string', 'max' => 100],
         ];
     }
@@ -46,6 +47,7 @@ class Users extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'login' => 'Login',
+            'email' => 'E-mail',
             'password' => 'Password',
         ];
     }
@@ -61,12 +63,5 @@ class Users extends \yii\db\ActiveRecord
             ->with('role')
             ->where('role_id = 1')
             ->all();
-    }
-
-    public function forUserConstruct() {
-        $array = $this->toArray();
-        $array['username'] = $array['login'];
-        unset($array['login']);
-        return $array;
     }
 }

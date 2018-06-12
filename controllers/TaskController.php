@@ -2,9 +2,12 @@
 
 namespace app\controllers;
 
+use app\models\behaviors\MyBehavior;
 use app\models\LoginForm;
 use app\models\tables\Users;
 use app\models\Task;
+use app\models\Test;
+use yii\base\Event;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 use yii\web\Controller;
@@ -15,9 +18,11 @@ class TaskController extends Controller
 {
     public function actionIndex()
     {
+
         $user_id = \Yii::$app->user->getId();
-        $calendar = array_fill_keys((range(1, date('t'))), []);
-        $tasks = TaskTables::getByCurrentMonth($user_id);
+        $month = (\Yii::$app->request->get()['date']) ?: date('n');
+        $tasks = TaskTables::getBySelectedMonth($user_id, $month);
+        $calendar = array_fill_keys((range(1, date('t', mktime(0, 0, 0, $month)))), []);
 
         foreach ($tasks as $task) {
             $date = \DateTime::createFromFormat('Y-m-d', $task->date);
@@ -33,7 +38,23 @@ class TaskController extends Controller
                 ]);
         */
 
-        return $this->render('index', ['calendar' => $calendar]);
+        return $this->render('index', ['calendar' => $calendar, 'month' => $month]);
+    }
+
+    public function actionEvents()
+    {
+        $user_id = \Yii::$app->user->getId();
+        $date = \Yii::$app->request->get()['date'];
+//        var_dump($date);
+        $tasks = TaskTables::getBySelectedDay($user_id, $date);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $tasks,
+            'pagination' => [
+                'pageSize' => 10,
+            ]
+        ]);
+
+        return $this->render('events', ['dataProvider' => $dataProvider, 'date' => $date]);
     }
 
     /*
@@ -71,52 +92,52 @@ class TaskController extends Controller
 //        return $this->render('index', $model->toArray());
 
 
-    public function actionTest()
-    {
+//    public function actionTest()
+//    {
 //        var_dump('privet');
 //        var_dump(\Yii::$app->db);
 
 //        CREATE
-        /*
-        \Yii::$app->db->createCommand("
-        CREATE TABLE test (
-        id INT PRIMARY KEY AUTO_INCREMENT,
-        title VARCHAR(255)
-        )
-        ")->execute();
-        */
+    /*
+    \Yii::$app->db->createCommand("
+    CREATE TABLE test (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255)
+    )
+    ")->execute();
+    */
 
 //        INSERT
-        /*
-        \Yii::$app->db
-            ->createCommand("
-                INSERT INTO test(title) VALUES (:title)
-                ")
-            ->bindValue(":title", "test2")
-            ->execute();
-        */
+    /*
+    \Yii::$app->db
+        ->createCommand("
+            INSERT INTO test(title) VALUES (:title)
+            ")
+        ->bindValue(":title", "test2")
+        ->execute();
+    */
 
 //        SELECT
-        /*
-        $res = \Yii::$app->db
-            ->createCommand("SELECT * FROM test")
-            ->queryOne();
-        */
-        /*
-        $res = \Yii::$app->db
-            ->createCommand("SELECT title FROM test")
-            ->queryColumn();
-        */
-        /*
-                $res = \Yii::$app->db
-                    ->createCommand("SELECT * FROM test")
-                    ->queryAll();
+    /*
+    $res = \Yii::$app->db
+        ->createCommand("SELECT * FROM test")
+        ->queryOne();
+    */
+    /*
+    $res = \Yii::$app->db
+        ->createCommand("SELECT title FROM test")
+        ->queryColumn();
+    */
+    /*
+            $res = \Yii::$app->db
+                ->createCommand("SELECT * FROM test")
+                ->queryAll();
 
-                var_dump($res);
+            var_dump($res);
 
-                exit;
-        */
-    }
+            exit;
+    */
+//    }
 
     public function actionArTest()
     {
@@ -212,13 +233,58 @@ class TaskController extends Controller
 
     public function actionCreate()
     {
-        $model = new Tasks();
+        $model = new TaskTables();
 
+        $model->on(TaskTables::EVENT_AFTER_INSERT, function ($e) {
+            if ($user = Users::findOne($e->sender->user_id)) {
+                \Yii::$app->mailer->compose()
+                    ->setTo($user->email)
+                    ->setFrom('tasker_message@mail.ru')
+                    ->setSubject('New task for you!')
+                    ->setTextBody("New task for you, id: {$e->sender->id}")
+                    ->send();
+            }
+        });
+//31:59
         if ($model->load(\Yii::$app->request->post()) && $model->save()) {
             $this->redirect(['task/index']);
         };
 
         return $this->render('create', ['model' => $model]);
+    }
+
+    public function actionTest()
+    {
+        //HANDLERS
+        /*
+        $model = new Test();
+        $handler = function ($e) {
+            var_dump($e);
+            echo 'handler is work';
+        };*/
+        /*
+        $model->on(Test::EVENT_RUN_START, function () {
+            echo 'handler is work';
+        });
+        */
+        /*
+                Event::on(Test::className(), Test::EVENT_RUN_START, $handler);
+        */
+        //for methods from object
+//        $model->on(Test::EVENT_RUN_START, [$model, 'goOn']);
+        //for static methods
+//        $model->on(Test::EVENT_RUN_START, [Test::className(), 'goOn']);
+//        $model->run();
+
+        //BEHAVIORS
+        $model = new Test();
+        $model->attachBehavior('my', [
+            'class' => MyBehavior::className(),
+            'message' => 'i am a mighty behavior!!'
+        ]);
+        $model->foo();
+        $model->detachBehavior('my');
+        exit;
     }
 
 }
