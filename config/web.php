@@ -11,7 +11,17 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
+    'language' => 'ru-RU',
     'components' => [
+        //i18n config
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => \yii\i18n\PhpMessageSource::className(),
+                    'basePath' => '@app/messages'
+                ]
+            ]
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'ldHLqbE1wprSWM04DObuz7YQ-pdLchTl',
@@ -29,7 +39,6 @@ $config = [
                 'database' => 0,
             ]
         ],
-
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,

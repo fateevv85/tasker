@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\behaviors\MyBehavior;
 use app\models\LoginForm;
+use app\models\tables\Comments;
 use app\models\tables\Users;
 use app\models\Task;
 use app\models\Test;
@@ -11,7 +12,9 @@ use yii\base\Event;
 use yii\caching\DbDependency;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
+use yii\imagine\Image;
 use yii\web\Controller;
+use yii\web\UploadedFile;
 use yii\web\User;
 use app\models\tables\Task as TaskTables;
 
@@ -21,8 +24,9 @@ class TaskController extends Controller
     {
         $user_id = \Yii::$app->user->getId();
         $month = (\Yii::$app->request->get()['date']) ?: date('n');
-
+        //36-06 время
         //FOR CACHE
+        /*
         //clear cache
         //$cache->flush();
         //dependency for cache, if quantity of rows are changed
@@ -40,8 +44,15 @@ class TaskController extends Controller
             }
             $cache->set($key, $calendar, 3600, $dependency);
         }
-
+*/
         //CACHING END
+        $tasks = TaskTables::getBySelectedMonth($user_id, $month);
+        $calendar = array_fill_keys((range(1, date('t', mktime(0, 0, 0, $month)))), []);
+
+        foreach ($tasks as $task) {
+            $date = \DateTime::createFromFormat('Y-m-d', $task->date);
+            $calendar[$date->format('j')][] = $task;
+        }
 
         /*
                 $dataProvider = new ActiveDataProvider([
@@ -290,15 +301,28 @@ class TaskController extends Controller
 //        $model->on(Test::EVENT_RUN_START, [Test::className(), 'goOn']);
 //        $model->run();
 
-        //BEHAVIORS
+        /*
+                //BEHAVIORS
+                $model->attachBehavior('my', [
+                    'class' => MyBehavior::className(),
+                    'message' => 'i am a mighty behavior!!'
+                ]);
+                $model->foo();
+                $model->detachBehavior('my');
+                */
+
         $model = new Test();
-        $model->attachBehavior('my', [
-            'class' => MyBehavior::className(),
-            'message' => 'i am a mighty behavior!!'
-        ]);
-        $model->foo();
-        $model->detachBehavior('my');
-        exit;
+
+        if (\Yii::$app->request->isPost) {
+            if ($model->validate()) {
+                $model->image = UploadedFile::getInstance($model, 'image');
+                $model->uploadsImage();
+//                exit;
+            }
+        }
+
+        return $this->render('test', ['model' => $model]);
+
     }
 
     public function actionCache()
@@ -319,6 +343,65 @@ class TaskController extends Controller
 
         var_dump($number);
         exit;
+    }
+
+    public function actionLocal()
+    {
+//        \Yii::$app->language = "en-UK";
+
+        echo \Yii::t('app', 'error', ['number' => 404]);
+//        echo \Yii::t('app', 'error');
+        exit;
+    }
+
+    public function actionImage()
+    {
+        Image::thumbnail('@webroot/img/1.jpg', 200, 100)
+            ->save(\Yii::getAlias('@webroot/img/small/1.jpg'));
+    }
+
+    public function actionView()
+    {
+        $task_id = \Yii::$app->request->get('id');
+        $model = TaskTables::getById($task_id);
+        $comment = new Comments();
+
+        if (\Yii::$app->request->isPost) {
+            $comment->image = UploadedFile::getInstance($comment, 'image');
+
+            if ($name = $comment->image->name) {
+                $path[] = \Yii::getAlias('@web/img/') . $name;
+                $path[] = \Yii::getAlias('@web/img/small/') . $name;
+            }
+
+            $comment->load([
+                'Comments' => [
+                    'user_id' => \Yii::$app->user->getId(),
+                    'task_id' => $task_id,
+                    'content' => \Yii::$app->request->post('Comments')['content'],
+                    'picture' => $path[0],
+                    'picture_small' => $path[1]
+                ]
+            ]);
+
+            if ($comment->validate()) {
+                $comment->save();
+            }
+
+            return $this->refresh();
+        }
+
+        $comments = Comments::find()
+            ->where(['user_id' => \Yii::$app->user->id])
+            ->andWhere(['task_id' => $task_id])
+            ->orderBy(['created_at'=>SORT_DESC])
+            ->all();
+
+        return $this->render('view', [
+            'model' => $model,
+            'comment' => $comment,
+            'comments' => $comments
+        ]);
     }
 
 }

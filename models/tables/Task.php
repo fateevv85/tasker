@@ -2,6 +2,7 @@
 
 namespace app\models\tables;
 
+use app\controllers\AdminTaskController;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
@@ -39,6 +40,7 @@ class Task extends ActiveRecord
             [['user_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['comment_id'], 'integer']
         ];
     }
 
@@ -49,10 +51,12 @@ class Task extends ActiveRecord
     {
         return [
             'id' => 'ID',
+//            'name' => \Yii::t('app', 'name'),
             'name' => 'Name',
             'date' => 'Expiry date',
             'description' => 'Description',
             'user_id' => 'User ID',
+//            'comment_id' => 'Comment'
         ];
     }
 
@@ -87,5 +91,13 @@ class Task extends ActiveRecord
             ->where(['user_id' => $user_id])
             ->andWhere(['date' => date($date)]);
 //            ->all();
+    }
+
+    public static function getById($id)
+    {
+        /*
+        $user_id = \Yii::$app->user->getId();
+        return static::findOne()*/
+        return static::findOne($id);
     }
 }

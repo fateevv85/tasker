@@ -16,19 +16,20 @@ $this->params['breadcrumbs'][] = $this->title;
   <h1><?= Html::encode($this->title) ?></h1>
 
     <?php
-
+          //CACHE
+/*
     if ($this->beginCache('contact_page', [
         'duration' => 86400,
         //on/off cache, false - off
         'enabled' => true,
         // analog of $key = 'task_' . $model->id;
-        /*'variations' => [
+        'variations' => [
             $model->id,
             //for different languages
             \Yii::$app->language
-        ]*/
+        ]
     ])):
-
+*/
         if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>
 
           <div class="alert alert-success">
@@ -83,7 +84,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif; ?>
 
         <?php
-        $this->endCache();
-    endif;
+        //FOR CACHE
+        /*$this->endCache();
+    endif;*/
     ?>
 </div>

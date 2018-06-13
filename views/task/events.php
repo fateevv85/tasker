@@ -16,7 +16,7 @@ echo \yii\widgets\ListView::widget([
 var_dump($dataProvider);
 */
 
-
+/*
 echo \yii\grid\GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => [
@@ -27,6 +27,26 @@ echo \yii\grid\GridView::widget([
         'description:ntext',
         'user_id',
 
-        ['class' => 'yii\grid\ActionColumn'],
+        ['class' => 'yii\grid\ActionColumn',
+
+        ],
+    ],
+]);
+*/
+
+echo \yii\grid\GridView::widget([
+    'dataProvider' => $dataProvider,
+    'columns' => [
+        ['class' => 'yii\grid\SerialColumn'],
+        'id',
+        'name',
+        'date',
+        'description:ntext',
+        'user_id',
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'header' => 'Action',
+            'template' => '{view}'
+        ]
     ],
 ]);
