@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "754fe4802dcbb98ce26e32ae97e1b366",
+    "content-hash": "95f9d6dd8d8e5a743766184d0f31db12",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -332,12 +332,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "777c9a08c18939e969d8d33809a74632696ec944"
+                "reference": "3180713e3389f79884fd8968b560f790c148cf95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/777c9a08c18939e969d8d33809a74632696ec944",
-                "reference": "777c9a08c18939e969d8d33809a74632696ec944",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/3180713e3389f79884fd8968b560f790c148cf95",
+                "reference": "3180713e3389f79884fd8968b560f790c148cf95",
                 "shasum": ""
             },
             "require": {
@@ -424,7 +424,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2018-06-03T13:30:53+00:00"
+            "time": "2018-06-12T19:26:31+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -641,6 +641,57 @@
                 "yii2"
             ],
             "time": "2018-05-04T06:55:51+00:00"
+        },
+        {
+            "name": "yiisoft/yii2-redis",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-redis.git",
+                "reference": "bcbb8c7127ac862d8f6ba32c840733388daa2878"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-redis/zipball/bcbb8c7127ac862d8f6ba32c840733388daa2878",
+                "reference": "bcbb8c7127ac862d8f6ba32c840733388daa2878",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.14"
+            },
+            "require-dev": {
+                "yiisoft/yii2-dev": "~2.0.14"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\redis\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Carsten Brandt",
+                    "email": "mail@cebe.cc"
+                }
+            ],
+            "description": "Redis Cache, Session and ActiveRecord for the Yii framework",
+            "keywords": [
+                "active-record",
+                "cache",
+                "redis",
+                "session",
+                "yii2"
+            ],
+            "time": "2018-05-04T06:56:14+00:00"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",
@@ -1076,12 +1127,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "65fbcca41437baff58a5c0e8f08fae617531dd0d"
+                "reference": "fd7cf3be611edcc4d5f2818e4d195c19a886312d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/65fbcca41437baff58a5c0e8f08fae617531dd0d",
-                "reference": "65fbcca41437baff58a5c0e8f08fae617531dd0d",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/fd7cf3be611edcc4d5f2818e4d195c19a886312d",
+                "reference": "fd7cf3be611edcc4d5f2818e4d195c19a886312d",
                 "shasum": ""
             },
             "require": {
@@ -1118,7 +1169,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2018-03-15T16:58:08+00:00"
+            "time": "2018-06-12T12:51:34+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -2859,12 +2910,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "b28fd73fefbac341f673f5efd707d539d6a19f68"
+                "reference": "a7e8068943f45eaabf58ac2ee424d9f792b4d7e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/b28fd73fefbac341f673f5efd707d539d6a19f68",
-                "reference": "b28fd73fefbac341f673f5efd707d539d6a19f68",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/a7e8068943f45eaabf58ac2ee424d9f792b4d7e1",
+                "reference": "a7e8068943f45eaabf58ac2ee424d9f792b4d7e1",
                 "shasum": ""
             },
             "require": {
@@ -2907,7 +2958,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2018-05-16T14:03:39+00:00"
+            "time": "2018-06-08T09:38:38+00:00"
         },
         {
             "name": "symfony/dom-crawler",
@@ -3444,12 +3495,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-gii.git",
-                "reference": "ab8ba3b32767e929541e092007205972ebc677eb"
+                "reference": "ee4d072af2788208edaed2b24b5acbc34b8631a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/ab8ba3b32767e929541e092007205972ebc677eb",
-                "reference": "ab8ba3b32767e929541e092007205972ebc677eb",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/ee4d072af2788208edaed2b24b5acbc34b8631a1",
+                "reference": "ee4d072af2788208edaed2b24b5acbc34b8631a1",
                 "shasum": ""
             },
             "require": {
@@ -3485,7 +3536,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2018-06-01T17:00:18+00:00"
+            "time": "2018-06-12T19:29:12+00:00"
         }
     ],
     "aliases": [],

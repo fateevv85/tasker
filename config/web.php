@@ -9,16 +9,27 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'ldHLqbE1wprSWM04DObuz7YQ-pdLchTl',
         ],
+
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        //REDIS CACHE
+        'cache_redis' => [
+            'class' => 'yii\redis\Cache',
+            'redis' => [
+                'hostname' => 'localhost',
+                'port' => 6379,
+                'database' => 0,
+            ]
+        ],
+
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,

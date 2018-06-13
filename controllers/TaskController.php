@@ -28,7 +28,7 @@ class TaskController extends Controller
         //dependency for cache, if quantity of rows are changed
         $dependency = new DbDependency();
         $dependency->sql = "SELECT count(*) FROM tasker.task WHERE user_id = {$user_id}";
-        $cache = \Yii::$app->cache;
+        $cache = \Yii::$app->cache_redis;
         $key = 'task_' . $month;
 
         if (!$calendar = $cache->get($key)) {
@@ -38,7 +38,7 @@ class TaskController extends Controller
                 $date = \DateTime::createFromFormat('Y-m-d', $task->date);
                 $calendar[$date->format('j')][] = $task;
             }
-            $cache->set($key, $calendar, 20, $dependency);
+            $cache->set($key, $calendar, 3600, $dependency);
         }
 
         //CACHING END
