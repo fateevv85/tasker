@@ -1,46 +1,50 @@
 <div class="container">
   <h4>List of current tasks</h4>
   <div class="row">
-    <div style="margin-bottom: 15px">
+      <?php
 
-        <?php
+      use \yii\helpers\Html;
+      use \yii\widgets\ActiveForm;
 
-        use \yii\helpers\Html;
-        use \yii\widgets\ActiveForm;
+      $form = ActiveForm::begin([
+          'id' => 'create_task',
+          'action' => [''],
+          'method' => 'get',
+          'options' => [
+              'class' => 'form-vertical'
+          ],
 
-        $form = ActiveForm::begin([
-            'id' => 'create_task',
-            'action' => [''],
-            'method' => 'get',
-            'options' => [
-                'class' => 'form-vertical'
-            ],
+      ]);
 
-        ]);
+      echo Html::tag('div',
+          Html::dropDownList('date', $month, [
+              "1" => 'January',
+              "2" => 'February',
+              "3" => 'March',
+              "4" => 'April',
+              "5" => 'May',
+              "6" => 'June',
+              "7" => 'July',
+              "8" => 'August',
+              "9" => 'September',
+              "10" => 'October',
+              "11" => 'November',
+              "12" => 'December'
+          ], ['class' => 'form-control']),
+          [
+              'class' => 'col-xs-3',
+              'style' => 'margin-bottom: 15px'
+          ]);
 
-        echo Html::tag('div',
-            Html::dropDownList('date', $month, [
-                "1" => 'January',
-                "2" => 'February',
-                "3" => 'March',
-                "4" => 'April',
-                "5" => 'May',
-                "6" => 'June',
-                "7" => 'July',
-                "8" => 'August',
-                "9" => 'September',
-                "10" => 'October',
-                "11" => 'November',
-                "12" => 'December'
-            ], ['class' => 'form-control']),
-            ['class' => 'col-xs-3']);
+      echo Html::submitButton('select', ['class' => 'btn btn-success']);
+
+      echo Html::a('Create task', \yii\helpers\Url::to(['task/create']), [
+          'class'=> 'btn btn-warning',
+          'style'=> 'margin-left: 10px'
+      ]);
 
 
-        echo Html::submitButton('select', ['class' => 'btn btn-success']);
-
-        ActiveForm::end();
-        ?>
-    </div>
+      ActiveForm::end(); ?>
   </div>
   <table class="table table-bordered">
     <tr>

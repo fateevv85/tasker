@@ -8,6 +8,7 @@ use app\models\tables\Users;
 use app\models\Task;
 use app\models\Test;
 use yii\base\Event;
+use yii\caching\DbDependency;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 use yii\web\Controller;
@@ -18,16 +19,29 @@ class TaskController extends Controller
 {
     public function actionIndex()
     {
-
         $user_id = \Yii::$app->user->getId();
         $month = (\Yii::$app->request->get()['date']) ?: date('n');
-        $tasks = TaskTables::getBySelectedMonth($user_id, $month);
-        $calendar = array_fill_keys((range(1, date('t', mktime(0, 0, 0, $month)))), []);
 
-        foreach ($tasks as $task) {
-            $date = \DateTime::createFromFormat('Y-m-d', $task->date);
-            $calendar[$date->format('j')][] = $task;
+        //FOR CACHE
+        //clear cache
+        //$cache->flush();
+        //dependency for cache, if quantity of rows are changed
+        $dependency = new DbDependency();
+        $dependency->sql = "SELECT count(*) FROM tasker.task WHERE user_id = {$user_id}";
+        $cache = \Yii::$app->cache;
+        $key = 'task_' . $month;
+
+        if (!$calendar = $cache->get($key)) {
+            $tasks = TaskTables::getBySelectedMonth($user_id, $month);
+            $calendar = array_fill_keys((range(1, date('t', mktime(0, 0, 0, $month)))), []);
+            foreach ($tasks as $task) {
+                $date = \DateTime::createFromFormat('Y-m-d', $task->date);
+                $calendar[$date->format('j')][] = $task;
+            }
+            $cache->set($key, $calendar, 20, $dependency);
         }
+
+        //CACHING END
 
         /*
                 $dataProvider = new ActiveDataProvider([
@@ -234,7 +248,7 @@ class TaskController extends Controller
     public function actionCreate()
     {
         $model = new TaskTables();
-
+        //trigger on sql insert query
         $model->on(TaskTables::EVENT_AFTER_INSERT, function ($e) {
             if ($user = Users::findOne($e->sender->user_id)) {
                 \Yii::$app->mailer->compose()
@@ -284,6 +298,26 @@ class TaskController extends Controller
         ]);
         $model->foo();
         $model->detachBehavior('my');
+        exit;
+    }
+
+    public function actionCache()
+    {
+        $cache = \Yii::$app->cache;
+        $key = 'number';
+
+        //clear cache
+//        $cache->flush();
+
+        if ($cache->exists($key)) {
+            $number = $cache->get($key);
+        } else {
+            $number = rand();
+            //set time in s for cache lifetime
+            $cache->set($key, $number, 5);
+        }
+
+        var_dump($number);
         exit;
     }
 

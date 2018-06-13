@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\tables\task;
 use app\models\tables\TaskSearch;
+use yii\caching\DbDependency;
+use yii\filters\PageCache;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +22,35 @@ class AdminTaskController extends Controller
     public function behaviors()
     {
         return [
+            'cache' => [
+                'class' => PageCache::className(),
+                'duration' => 60,
+                'variations' => [Yii::$app->language],
+                //limit actions for cache
+                'only' => ['index']
+                /*
+                'dependency' => [
+                    'class' => DbDependency::className(),
+                    'sql' => '.....'
+                ]
+                */
+            ],
+            //can be many rules for caching
+            /*
+            'cache2' => [
+                'class' => PageCache::className(),
+                'duration' => 500,
+                'variations' => [Yii::$app->language],
+                //limit actions for cache
+                'only' => ['view']
+                /*
+                'dependency' => [
+                    'class' => DbDependency::className(),
+                    'sql' => '.....'
+                ]
+
+            ],
+            */
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -52,8 +83,28 @@ class AdminTaskController extends Controller
      */
     public function actionView($id)
     {
+        /*
+        $cache = \Yii::$app->cache;
+        $key = 'task_' . $id;
+
+        //clear cache
+        //$cache->flush();
+
+        //dependency for cache, if quantity of rows are changed
+        $dependency = new DbDependency();
+        $dependency->sql = 'SELECT count(*) FROM tasker.task';
+
+        //if value of task_id is exists
+        if (!$model = $cache->get($key)) {
+            $model = $this->findModel($id);
+            //set time in s for cache lifetime
+            $cache->set($key, $model, 300, $dependency);
+        }
+*/
+        $model = $this->findModel($id);
+//        $model->afterSave();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 

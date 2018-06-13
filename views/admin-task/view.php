@@ -25,27 +25,27 @@ $this->params['breadcrumbs'][] = $this->title;
       ]) ?>
   </p>
 
-<!--  --><?//=yii\widgets\ListView::widget();  ?>
+  <!--  --><? //=yii\widgets\ListView::widget();  ?>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
             'name',
-/*
-            [
-                'label' => 123,
-                'value' => 'sdfsd',
-                'format' => 'ntext',
-                'contentOptions' => ['class' => 'q'],
-                'captionOptions' => ['class' => 'w']
-            ],
-*/
+            /*
+                        [
+                            'label' => 123,
+                            'value' => 'sdfsd',
+                            'format' => 'ntext',
+                            'contentOptions' => ['class' => 'q'],
+                            'captionOptions' => ['class' => 'w']
+                        ],
+            */
             'date',
 //            'description:ntext',
             'description:html',
             'user_id',
         ],
-    ]) ?>
-
+    ]);
+    ?>
 </div>

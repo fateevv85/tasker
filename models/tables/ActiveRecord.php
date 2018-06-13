@@ -8,6 +8,7 @@ use yii\db\Expression;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
+    //behavior for tables/models
     public function behaviors()
     {
         return [
