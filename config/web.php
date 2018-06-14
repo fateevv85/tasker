@@ -11,7 +11,7 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
-    'language' => 'ru-RU',
+//    'language' => 'ru-RU',
     'components' => [
         //i18n config
         'i18n' => [

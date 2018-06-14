@@ -1,5 +1,9 @@
 <div class="container">
-  <h4>List of current tasks</h4>
+  <h4>
+    <!--    List of current tasks-->
+      <?= \Yii::t('app', 'task-title') ?>
+  </h4>
+
   <div class="row">
       <?php
 
@@ -36,21 +40,34 @@
               'style' => 'margin-bottom: 15px'
           ]);
 
-      echo Html::submitButton('select', ['class' => 'btn btn-success']);
+      echo Html::submitButton(\Yii::t('app', 'task-btn-sel'),
+          ['class' => 'btn btn-success']);
 
-      echo Html::a('Create task', \yii\helpers\Url::to(['task/create']), [
-          'class'=> 'btn btn-warning',
-          'style'=> 'margin-left: 10px'
-      ]);
-
+      echo Html::a(
+          \Yii::t('app', 'task-btn-create'),
+          \yii\helpers\Url::to(['task/create']),
+          [
+              'class' => 'btn btn-warning',
+              'style' => 'margin-left: 10px'
+          ]
+      );
 
       ActiveForm::end(); ?>
   </div>
   <table class="table table-bordered">
     <tr>
-      <td>Date</td>
-      <td>Task</td>
-      <td>Total tasks</td>
+      <td>
+        <!--        Date-->
+          <?= \Yii::t('app', 'task-date') ?>
+      </td>
+      <td>
+        <!--        Task-->
+          <?= \Yii::t('app', 'task-task') ?>
+      </td>
+      <td>
+        <!--        Total tasks-->
+          <?= \Yii::t('app', 'task-total') ?>
+      </td>
     </tr>
       <?php
       /*

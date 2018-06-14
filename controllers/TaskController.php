@@ -22,6 +22,11 @@ class TaskController extends Controller
 {
     public function actionIndex()
     {
+
+
+        $session = \Yii::$app->session;
+        \Yii::$app->language = $session->get('language');
+
         $user_id = \Yii::$app->user->getId();
         $month = (\Yii::$app->request->get()['date']) ?: date('n');
         //36-06 время
@@ -347,11 +352,22 @@ class TaskController extends Controller
 
     public function actionLocal()
     {
-//        \Yii::$app->language = "en-UK";
 
-        echo \Yii::t('app', 'error', ['number' => 404]);
+//        var_dump(\Yii::$app->request->get());
+        $lang = \Yii::$app->request->get('lg');
+
+        $session = \Yii::$app->session;
+        if ($lang == 'ru') {
+            $session->set('language', 'ru');
+        } else {
+            $session->set('language', 'en');
+        }
+
+        return $this->redirect('?r=task');
+
+//        echo \Yii::t('app', 'error', ['number' => 404]);
 //        echo \Yii::t('app', 'error');
-        exit;
+//        exit;
     }
 
     public function actionImage()
