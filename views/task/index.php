@@ -17,28 +17,17 @@
           'options' => [
               'class' => 'form-vertical'
           ],
-
       ]);
 
       echo Html::tag('div',
-          Html::dropDownList('date', $month, [
-              "1" => 'January',
-              "2" => 'February',
-              "3" => 'March',
-              "4" => 'April',
-              "5" => 'May',
-              "6" => 'June',
-              "7" => 'July',
-              "8" => 'August',
-              "9" => 'September',
-              "10" => 'October',
-              "11" => 'November',
-              "12" => 'December'
-          ], ['class' => 'form-control']),
+          Html::dropDownList('date', $month,
+              \Yii::t('app', 'months-name'),
+              ['class' => 'form-control']),
           [
               'class' => 'col-xs-3',
               'style' => 'margin-bottom: 15px'
-          ]);
+          ]
+      );
 
       echo Html::submitButton(\Yii::t('app', 'task-btn-sel'),
           ['class' => 'btn btn-success']);
