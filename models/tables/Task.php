@@ -95,9 +95,6 @@ class Task extends ActiveRecord
 
     public static function getById($id)
     {
-        /*
-        $user_id = \Yii::$app->user->getId();
-        return static::findOne()*/
         return static::findOne($id);
     }
 }

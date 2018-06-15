@@ -44,7 +44,7 @@ class Comments extends \yii\db\ActiveRecord
             [['user_id', 'task_id'], 'integer'],
             [['content'], 'string'],
 //            [['created_at'], 'safe'],
-            [['picture', 'picture_small'], 'string', 'max' => 255],
+            [['picture'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['image'], 'image', 'extensions' => 'jpg, png', 'maxSize' => 1024 * 1024 * 5]
@@ -62,7 +62,6 @@ class Comments extends \yii\db\ActiveRecord
             'task_id' => 'Task ID',
             'content' => 'Comment',
             'picture' => 'Picture',
-            'picture_small' => 'Picture Small',
 //            'created_at' => 'Created At',
             'image' => 'Upload image'
         ];
@@ -87,10 +86,12 @@ class Comments extends \yii\db\ActiveRecord
     public function uploadsImage()
     {
         $fileName = $this->image->getBaseName() . '.' . $this->image->getExtension();
-        $this->image->saveAs('img/' . $fileName);
+        $path = \Yii::getAlias('@webroot/img/' . $fileName);
+        $this->image->saveAs($path);
 
-        Image::thumbnail($fileName, 200, 100)
+        Image::thumbnail($path, 200, 100)
             ->save(\Yii::getAlias('@webroot/img/small/' . $fileName));
+
     }
 
     public function behaviors()

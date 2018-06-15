@@ -4,14 +4,6 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
-/*
-echo \yii\jui\DatePicker::widget([
-//    'name' => 'my-date',
-    'model' => $model,
-    'attribute' => 'date'
-]);
-*/
-//\yii\widgets\ActiveForm::widget([]);
 $form = ActiveForm::begin([
     'id' => 'create_task',
     'options' => [
@@ -21,7 +13,7 @@ $form = ActiveForm::begin([
 ]);
 
 echo $form->field($model, 'name')->textInput();
-//echo $form->field($model, 'date')->textInput(['type'=>'date'])->hint('input date');
+
 echo $form->field($model, 'date')->widget(\yii\jui\DatePicker::className(), [
     'dateFormat' => 'yyyy-MM-dd',
     'options' => [

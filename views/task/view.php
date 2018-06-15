@@ -28,14 +28,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php
     $form = \yii\widgets\ActiveForm::begin([
-        'id' => 'add_comment'
+        'id' => 'add_comment',
+        'action' => '/?r=task/save-comment'
     ]);
 
     echo $form->field($comment, 'content')->textarea(['rows' => 3]);
 
     echo $form->field($comment, 'image')->fileInput();
 
+    echo $form->field($comment, 'task_id')->hiddenInput(['value' => Yii::$app->request->get('id')])->label(false);
+
+    echo $form->field($comment, 'user_id')->hiddenInput(['value' => \Yii::$app->user->getId()])->label(false);
+
     echo Html::submitButton('Add comment', ['class' => 'btn btn-success']);
+
     \yii\widgets\ActiveForm::end();
     ?>
 
@@ -49,11 +55,12 @@ $this->params['breadcrumbs'][] = $this->title;
               echo $item['content'];
               ?>
           </div>
-          <?php if ($item['picture']) :?>
-          <a href="<?= $item['picture'] ?>">
-            <img src="<?= $item['picture_small'] ?>" alt="picture" class="img-responsive img-rounded img-thumbnail">
-          </a>
-          <?php endif; ?>
+            <?php if ($item['picture']) : ?>
+              <a href="<?= \Yii::getAlias('@web/img/' . $item['picture']) ?>">
+                <img src="<?= \Yii::getAlias('@web/img/small/' . $item['picture']) ?>" alt="picture"
+                     class="img-responsive img-rounded img-thumbnail">
+              </a>
+            <?php endif; ?>
           <div> Comment from:
               <?php
               echo $item['user_id'];

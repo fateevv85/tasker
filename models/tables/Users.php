@@ -20,12 +20,7 @@ class Users extends ActiveRecord
     {
         return 'users';
     }
-    /*
-        public static function primaryKey()
-        {
-            return ['login'];
-        }
-    */
+
     /**
      * {@inheritdoc}
      */
