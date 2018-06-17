@@ -40,7 +40,6 @@ class Task extends ActiveRecord
             [['user_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
-            [['comment_id'], 'integer']
         ];
     }
 
@@ -56,7 +55,6 @@ class Task extends ActiveRecord
             'date' => 'Expiry date',
             'description' => 'Description',
             'user_id' => 'User ID',
-//            'comment_id' => 'Comment'
         ];
     }
 

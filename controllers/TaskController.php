@@ -2,20 +2,12 @@
 
 namespace app\controllers;
 
-use app\models\behaviors\MyBehavior;
-use app\models\LoginForm;
 use app\models\tables\Comments;
 use app\models\tables\Users;
-use app\models\Task;
-use app\models\Test;
-use yii\base\Event;
-use yii\caching\DbDependency;
 use yii\data\ActiveDataProvider;
-use yii\db\Expression;
-use yii\imagine\Image;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\UploadedFile;
-use yii\web\User;
 use app\models\tables\Task as TaskTables;
 
 class TaskController extends Controller
@@ -86,7 +78,8 @@ class TaskController extends Controller
             $session->set('language', 'en');
         }
 
-        return $this->redirect('?r=task');
+//        return $this->redirect('?r=task');
+        return $this->redirect('/task');
     }
 
     public function actionSaveComment()
@@ -107,8 +100,7 @@ class TaskController extends Controller
                 $comment->save();
             }
 
-            return $this->redirect('/?r=task/view&id=' . $data['Comments']['task_id']);
-
+            return $this->redirect(Url::to(['task/view', 'id' => $data['Comments']['task_id']]));
         }
 
         return $this->goHome();

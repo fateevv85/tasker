@@ -11,6 +11,12 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
+    // for modules
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Admin',
+        ],
+    ],
 //    'language' => 'ru-RU',
     'components' => [
         //i18n config
@@ -74,14 +80,20 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
+            // controller/action
             'enablePrettyUrl' => true,
+            // address of php-script
             'showScriptName' => false,
+            // forbidden to action-like names *task/index
+//            'enableStrictParsing' => true,
             'rules' => [
+                'calendar' => 'task/index',
+                '/<lg:ru|en>' => 'task/local',
+                'calendar/<date:\d{4}-\d{2}-\d{2}>' => 'task/events',
+                'task/<id:\d+>' => 'task/view',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];

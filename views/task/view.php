@@ -29,7 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     $form = \yii\widgets\ActiveForm::begin([
         'id' => 'add_comment',
-        'action' => '/?r=task/save-comment'
+//        'action' => '/?r=task/save-comment'
+//        'action' => '/task/save-comment'
+        'action' => \yii\helpers\Url::to(['task/save-comment'])
     ]);
 
     echo $form->field($comment, 'content')->textarea(['rows' => 3]);

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\admin\controllers;
 
 use Yii;
 use app\models\tables\task;
@@ -14,7 +14,7 @@ use yii\filters\VerbFilter;
 /**
  * AdminTaskController implements the CRUD actions for task model.
  */
-class AdminTaskController extends Controller
+class TaskController extends Controller
 {
     /**
      * {@inheritdoc}
