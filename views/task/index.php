@@ -32,14 +32,16 @@
       echo Html::submitButton(\Yii::t('app', 'task-btn-sel'),
           ['class' => 'btn btn-success']);
 
-      echo Html::a(
-          \Yii::t('app', 'task-btn-create'),
-          \yii\helpers\Url::to(['task/create']),
-          [
-              'class' => 'btn btn-warning',
-              'style' => 'margin-left: 10px'
-          ]
-      );
+      if (Yii::$app->user->can('createTask')) {
+          echo Html::a(
+              \Yii::t('app', 'task-btn-create'),
+              \yii\helpers\Url::to(['task/create']),
+              [
+                  'class' => 'btn btn-warning',
+                  'style' => 'margin-left: 10px'
+              ]
+          );
+      }
 
       ActiveForm::end(); ?>
   </div>

@@ -6,6 +6,7 @@ use Yii;
 use app\models\tables\task;
 use app\models\tables\TaskSearch;
 use yii\caching\DbDependency;
+use yii\filters\AccessControl;
 use yii\filters\PageCache;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -22,19 +23,17 @@ class TaskController extends Controller
     public function behaviors()
     {
         return [
-            'cache' => [
+            /*'cache' => [
                 'class' => PageCache::className(),
                 'duration' => 60,
                 'variations' => [Yii::$app->language],
                 //limit actions for cache
-                'only' => ['index']
-                /*
+                'only' => ['index'],
                 'dependency' => [
                     'class' => DbDependency::className(),
                     'sql' => '.....'
                 ]
-                */
-            ],
+            ],*/
             //can be many rules for caching
             /*
             'cache2' => [
@@ -51,6 +50,19 @@ class TaskController extends Controller
 
             ],
             */
+
+            'access' => [
+                'class' => AccessControl::className(),
+//                'only' => ['index'],
+                'rules' => [
+                    [
+//                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['admin']
+//                    'roles' => ['createTask']
+                    ]
+                ]
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

@@ -19,6 +19,9 @@ $config = [
     ],
 //    'language' => 'ru-RU',
     'components' => [
+        'authManager' => [
+            'class' => \yii\rbac\DbManager::className()
+        ],
         //i18n config
         'i18n' => [
             'translations' => [

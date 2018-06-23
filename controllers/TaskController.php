@@ -5,6 +5,8 @@ namespace app\controllers;
 use app\models\tables\Comments;
 use app\models\tables\Users;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\UploadedFile;
@@ -12,10 +14,34 @@ use app\models\tables\Task as TaskTables;
 
 class TaskController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index'],
+                'rules' => [
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['@']
+                    ]
+                ]
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         $session = \Yii::$app->session;
-        \Yii::$app->language = $session->get('language');
+
+        \Yii::$app->language = ($session->get('language')) ? $session->get('language') : 'en';
 
         $user_id = \Yii::$app->user->getId();
         $month = (\Yii::$app->request->get()['date']) ?: date('n');
